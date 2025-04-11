@@ -1,0 +1,26 @@
+diff --git a/go.mod b/go.mod
+index 7ffc0975..6c88af46 100644
+--- a/go.mod
++++ b/go.mod
+@@ -62,6 +62,8 @@ require (
+ 	gopkg.in/yaml.v3 v3.0.1
+ )
+ 
++replace github.com/livekit/protocol => ./patched-deps/protocol
++
+ require (
+ 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250307204501-0409229c3780.1 // indirect
+ 	buf.build/go/protoyaml v0.3.2 // indirect
+diff --git a/go.sum b/go.sum
+index a161edde..18f69007 100644
+--- a/go.sum
++++ b/go.sum
+@@ -171,8 +171,6 @@ github.com/livekit/mageutil v0.0.0-20230125210925-54e8a70427c1 h1:jm09419p0lqTkD
+ github.com/livekit/mageutil v0.0.0-20230125210925-54e8a70427c1/go.mod h1:Rs3MhFwutWhGwmY1VQsygw28z5bWcnEYmS1OG9OxjOQ=
+ github.com/livekit/mediatransportutil v0.0.0-20250310153736-45596af895b6 h1:6ZhtnY9I9knfm3ieIPpznQSEU2rDECO8yliW/ANLQ7U=
+ github.com/livekit/mediatransportutil v0.0.0-20250310153736-45596af895b6/go.mod h1:36s+wwmU3O40IAhE+MjBWP3W71QRiEE9SfooSBvtBqY=
+-github.com/livekit/protocol v1.36.2-0.20250411163912-b29f0a8bf560 h1:FfC/nL/CSaYjl2vHJnsi1ywr5dBkm8t76clG8vBxpL8=
+-github.com/livekit/protocol v1.36.2-0.20250411163912-b29f0a8bf560/go.mod h1:WrT/CYRxtMNOVUjnIPm5OjWtEkmreffTeE1PRZwlRg4=
+ github.com/livekit/psrpc v0.6.1-0.20250205181828-a0beed2e4126 h1:fzuYpAQbCid7ySPpQWWePfQOWUrs8x6dJ0T3Wl07n+Y=
+ github.com/livekit/psrpc v0.6.1-0.20250205181828-a0beed2e4126/go.mod h1:X5WtEZ7OnEs72Fi5/J+i0on3964F1aynQpCalcgMqRo=
+ github.com/mackerelio/go-osstat v0.2.5 h1:+MqTbZUhoIt4m8qzkVoXUJg1EuifwlAJSk4Yl2GXh+o=
