@@ -304,7 +304,9 @@ We welcome your contributions toward improving LiveKit! Please join us
 LiveKit server is licensed under Apache License v2.0.
 
 <!--BEGIN_REPO_NAV-->
+
 <br/><table>
+
 <thead><tr><th colspan="2">LiveKit Ecosystem</th></tr></thead>
 <tbody>
 <tr><td>LiveKit SDKs</td><td><a href="https://github.com/livekit/client-sdk-js">Browser</a> · <a href="https://github.com/livekit/client-sdk-swift">iOS/macOS/visionOS</a> · <a href="https://github.com/livekit/client-sdk-android">Android</a> · <a href="https://github.com/livekit/client-sdk-flutter">Flutter</a> · <a href="https://github.com/livekit/client-sdk-react-native">React Native</a> · <a href="https://github.com/livekit/rust-sdks">Rust</a> · <a href="https://github.com/livekit/node-sdks">Node.js</a> · <a href="https://github.com/livekit/python-sdks">Python</a> · <a href="https://github.com/livekit/client-sdk-unity">Unity</a> · <a href="https://github.com/livekit/client-sdk-unity-web">Unity (WebGL)</a></td></tr><tr></tr>
@@ -316,3 +318,29 @@ LiveKit server is licensed under Apache License v2.0.
 </tbody>
 </table>
 <!--END_REPO_NAV-->
+
+## Build for happyrobot
+
+```sh
+git clone git@github.com:livekit/protocol.git ./patched-deps/protocol
+cd ./patched-deps/protocol
+# Get the commit hash from the go.mod file
+# v1.26.1-0.20241016155912-37cb4c8b250d -> 37cb4c8b250d
+git checkout 37cb4c8b250d
+# Patch dependency
+git apply ../../.patches/protocol/*.patch
+cd ../..
+```
+
+If you are coming from the upstream branch
+
+```sh
+# Patch project
+git apply .patches/*.patch
+```
+
+Build
+
+```sh
+docker build --platform linux/amd64 -t happyrobotai/livekit-server:<version> -f build/sip/Dockerfile --build-arg GOVERSION=1.23.1 . --push
+```
