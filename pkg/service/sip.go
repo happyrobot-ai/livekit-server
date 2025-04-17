@@ -432,9 +432,6 @@ func (s *SIPService) TransferSIPParticipant(ctx context.Context, req *livekit.Tr
 		ctx, cancel = context.WithTimeout(ctx, timeout)
 		defer cancel()
 	}
-
-	log = log.WithValues("timeout", timeout)
-	log.Infow("transferring sip participant")
 	_, err = s.psrpcClient.TransferSIPParticipant(ctx, ireq.SipCallId, ireq, psrpc.WithRequestTimeout(timeout))
 	if err != nil {
 		log.Errorw("cannot transfer sip participant", err)
