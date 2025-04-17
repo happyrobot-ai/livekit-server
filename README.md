@@ -340,5 +340,5 @@ git apply .patches/*.patch
 Build
 
 ```sh
-docker build --platform linux/amd64 -t happyrobotai/livekit-server:<version> -f build/sip/Dockerfile --build-arg GOVERSION=1.23.1 . --push
+docker build --platform linux/amd64 -t happyrobotai/livekit-server:<version> --build-arg GOVERSION=1.22 . --push
 ```
