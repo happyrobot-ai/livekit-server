@@ -20,6 +20,9 @@ RUN echo building for "$TARGETPLATFORM"
 
 WORKDIR /workspace
 
+# copy patched dependencies first
+COPY patched-deps/ patched-deps/
+
 # Copy the Go Modules manifests
 COPY go.mod go.mod
 COPY go.sum go.sum
