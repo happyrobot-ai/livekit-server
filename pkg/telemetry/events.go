@@ -111,7 +111,7 @@ func (t *telemetryService) ParticipantActive(
 ) {
 	t.enqueue(func() {
 		t.NotifyEvent(ctx, &livekit.WebhookEvent{
-			Event:       webhook.EventParticipantJoined,
+			Event:       webhook.EventParticipantActive,
 			Room:        room,
 			Participant: participant,
 		})
