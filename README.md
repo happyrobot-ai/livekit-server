@@ -326,7 +326,7 @@ git clone git@github.com:livekit/protocol.git ./patched-deps/protocol
 cd ./patched-deps/protocol
 # Get the commit hash from the go.mod file
 # v1.26.1-0.20241016155912-37cb4c8b250d -> 37cb4c8b250d
-git checkout 37cb4c8b250d
+git checkout <commit>
 # Patch dependency
 git apply ../../.patches/protocol/*.patch
 cd ../..
@@ -342,5 +342,5 @@ git apply .patches/*.patch
 Build
 
 ```sh
-docker build --platform linux/amd64 -t happyrobotai/livekit-server:<version> --build-arg GOVERSION=1.22 . --push
+docker build --platform linux/amd64 -t happyrobotai/livekit-server:<version> --build-arg GOVERSION=1.23 . --push
 ```
