@@ -101,7 +101,7 @@ func (t *telemetryService) ParticipantJoined(
 		}
 
 		t.NotifyEvent(ctx, &livekit.WebhookEvent{
-			Event:       webhook.EventParticipantActive,
+			Event:       webhook.EventParticipantJoined,
 			Room:        room,
 			Participant: participant,
 		})
@@ -117,7 +117,7 @@ func (t *telemetryService) ParticipantActive(
 ) {
 	t.enqueue(func() {
 		t.NotifyEvent(ctx, &livekit.WebhookEvent{
-			Event:       webhook.EventParticipantJoined,
+			Event:       webhook.EventParticipantActive,
 			Room:        room,
 			Participant: participant,
 		})
@@ -175,6 +175,12 @@ func (t *telemetryService) ParticipantResumed(
 			ReconnectReason: reason,
 		}
 		t.SendEvent(ctx, ev)
+
+		t.NotifyEvent(ctx, &livekit.WebhookEvent{
+			Event:       webhook.EventParticipantResumed,
+			Room:        room,
+			Participant: participant,
+		})
 	})
 }
 
@@ -218,6 +224,12 @@ func (t *telemetryService) TrackPublishRequested(
 			ev.Participant.Identity = string(identity)
 		}
 		t.SendEvent(ctx, ev)
+
+		t.NotifyEvent(ctx, &livekit.WebhookEvent{
+			Event:       webhook.EventTrackPublishedRequested,
+			Room:        room,
+			Participant: ev.Participant,
+		})
 	})
 }
 
@@ -253,6 +265,13 @@ func (t *telemetryService) TrackPublishedUpdate(ctx context.Context, participant
 	t.enqueue(func() {
 		room := t.getRoomDetails(participantID)
 		t.SendEvent(ctx, newTrackEvent(livekit.AnalyticsEventType_TRACK_PUBLISHED_UPDATE, room, participantID, track))
+
+		ev := newTrackEvent(livekit.AnalyticsEventType_TRACK_PUBLISHED_UPDATE, room, participantID, track)
+		t.NotifyEvent(ctx, &livekit.WebhookEvent{
+			Event:       webhook.EventTrackPublishedRequested,
+			Room:        room,
+			Participant: ev.Participant,
+		})
 	})
 }
 
@@ -283,6 +302,11 @@ func (t *telemetryService) TrackSubscribeRequested(
 		room := t.getRoomDetails(participantID)
 		ev := newTrackEvent(livekit.AnalyticsEventType_TRACK_SUBSCRIBE_REQUESTED, room, participantID, track)
 		t.SendEvent(ctx, ev)
+		t.NotifyEvent(ctx, &livekit.WebhookEvent{
+			Event:       webhook.EventTrackSubscribedRequested,
+			Room:        room,
+			Participant: ev.Participant,
+		})
 	})
 }
 
@@ -304,6 +328,11 @@ func (t *telemetryService) TrackSubscribed(
 		ev := newTrackEvent(livekit.AnalyticsEventType_TRACK_SUBSCRIBED, room, participantID, track)
 		ev.Publisher = publisher
 		t.SendEvent(ctx, ev)
+		t.NotifyEvent(ctx, &livekit.WebhookEvent{
+			Event:       webhook.EventTrackSubscribed,
+			Room:        room,
+			Participant: ev.Participant,
+		})
 	})
 }
 
