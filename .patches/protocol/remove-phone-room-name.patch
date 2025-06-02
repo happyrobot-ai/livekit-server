@@ -1,7 +1,5 @@
-diff --git a/sip/sip.go b/sip/sip.go
-index a812c5b..6a07072 100644
---- a/sip/sip.go
-+++ b/sip/sip.go
+--- sip/sip.go
++++ sip/sip.go
 @@ -487,7 +487,7 @@ func EvaluateDispatchRule(projectID string, trunk *livekit.SIPInboundTrunkInfo,
  		// TODO: Remove "_" if the prefix is empty for consistency with Callee dispatch rule.
  		// TODO: Do we need to escape specific characters in the number?

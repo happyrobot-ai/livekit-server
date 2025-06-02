@@ -1,11 +1,9 @@
-diff --git a/Dockerfile b/Dockerfile
-index ebdf80ca..1c17ac7e 100644
---- a/Dockerfile
-+++ b/Dockerfile
+--- Dockerfile
++++ Dockerfile
 @@ -20,6 +20,9 @@ RUN echo building for "$TARGETPLATFORM"
- 
+
  WORKDIR /workspace
- 
+
 +# copy patched dependencies first
 +COPY patched-deps/ patched-deps/
 +
