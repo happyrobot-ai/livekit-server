@@ -1,0 +1,13 @@
+diff --git a/pkg/service/sip.go b/pkg/service/sip.go
+index 88554cb1..581485b2 100644
+--- a/pkg/service/sip.go
++++ b/pkg/service/sip.go
+@@ -424,7 +424,7 @@ func (s *SIPService) TransferSIPParticipant(ctx context.Context, req *livekit.Tr
+ 		"transferTo", req.TransferTo,
+ 	)
+ 
+-	timeout := 30 * time.Second
++	timeout := 10 * time.Minute
+ 	if deadline, ok := ctx.Deadline(); ok {
+ 		timeout = time.Until(deadline)
+ 	} else {
