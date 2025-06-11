@@ -1,0 +1,11 @@
+--- patched-deps/protocol/sip/sip.go
++++ patched-deps/protocol/sip/sip.go
+@@ -829,7 +829,7 @@ func EvaluateDispatchRule(projectID string, trunk *livekit.SIPInboundTrunkInfo,
+ 		// TODO: Remove "_" if the prefix is empty for consistency with Callee dispatch rule.
+ 		// TODO: Do we need to escape specific characters in the number?
+ 		// TODO: Include actual SIP call ID in the room name?
+-		room = fmt.Sprintf("%s_%s_%s", rule.DispatchRuleIndividual.GetRoomPrefix(), from, guid.New(""))
++		room = fmt.Sprintf("%s_%s_%s", rule.DispatchRuleIndividual.GetRoomPrefix(), guid.New(""), guid.New(""))
+ 	case *livekit.SIPDispatchRule_DispatchRuleCallee:
+ 		room = to
+ 		if pref := rule.DispatchRuleCallee.GetRoomPrefix(); pref != "" {

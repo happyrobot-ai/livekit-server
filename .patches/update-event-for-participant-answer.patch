@@ -1,0 +1,55 @@
+diff --git pkg/service/roommanager.go pkg/service/roommanager.go
+--- pkg/service/roommanager.go
++++ pkg/service/roommanager.go
+@@ -711,6 +711,10 @@ func (r *RoomManager) rtcSessionWorker(room *rtc.Room, participant types.LocalPa
+ 				// treat errors returned as fatal
+ 				return
+ 			}
++
++			if _, ok := req.GetMessage().(*livekit.SignalRequest_Answer); ok {
++				r.telemetry.ParticipantUpdate(context.Background(), room.ToProto(), participant.ToProto())
++			}
+ 		}
+ 	}
+ }
+diff --git pkg/telemetry/events.go pkg/telemetry/events.go
+--- pkg/telemetry/events.go
++++ pkg/telemetry/events.go
+@@ -139,6 +139,25 @@ func (t *telemetryService) ParticipantActive(
+ 	})
+ }
+ 
++func (t *telemetryService) ParticipantUpdate(
++	ctx context.Context,
++	room *livekit.Room,
++	participant *livekit.ParticipantInfo,
++) {
++	t.enqueue(func() {
++		t.NotifyEvent(ctx, &livekit.WebhookEvent{
++			Event:       webhook.EventParticipantUpdate,
++			Room:        room,
++			Participant: participant,
++		})
++
++		// NOTE: (apolakof) Ignoring this on purpose.
++		// ev := newParticipantEvent(livekit.AnalyticsEventType_PARTICIPANT_ACTIVE, room, participant)
++		// ev.ClientMeta = clientMeta
++		// t.SendEvent(ctx, ev)
++	})
++}
++
+ func (t *telemetryService) ParticipantResumed(
+ 	ctx context.Context,
+ 	room *livekit.Room,
+diff --git pkg/telemetry/telemetryservice.go pkg/telemetry/telemetryservice.go
+--- pkg/telemetry/telemetryservice.go
++++ pkg/telemetry/telemetryservice.go
+@@ -40,6 +40,8 @@ type TelemetryService interface {
+ 	ParticipantJoined(ctx context.Context, room *livekit.Room, participant *livekit.ParticipantInfo, clientInfo *livekit.ClientInfo, clientMeta *livekit.AnalyticsClientMeta, shouldSendEvent bool)
+ 	// ParticipantActive - a participant establishes media connection
+ 	ParticipantActive(ctx context.Context, room *livekit.Room, participant *livekit.ParticipantInfo, clientMeta *livekit.AnalyticsClientMeta, isMigration bool)
++	// ParticipantUpdate - a participant has an update to it's attributes or metadata.
++	ParticipantUpdate(ctx context.Context, room *livekit.Room, participant *livekit.ParticipantInfo)
+ 	// ParticipantResumed - there has been an ICE restart or connection resume attempt, and we've received their signal connection
+ 	ParticipantResumed(ctx context.Context, room *livekit.Room, participant *livekit.ParticipantInfo, nodeID livekit.NodeID, reason livekit.ReconnectReason)
+ 	// ParticipantLeft - the participant leaves the room, only sent if ParticipantActive has been called before
