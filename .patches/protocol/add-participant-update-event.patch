@@ -1,6 +1,5 @@
-diff --git webhook/consts.go webhook/consts.go
---- webhook/consts.go
-+++ webhook/consts.go
+--- patched-deps/protocol/webhook/consts.go
++++ patched-deps/protocol/webhook/consts.go
 @@ -28,6 +28,7 @@ const (
  	EventRoomStarted       = "room_started"
  	EventRoomFinished      = "room_finished"
